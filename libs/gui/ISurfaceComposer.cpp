@@ -387,6 +387,7 @@ status_t BnSurfaceComposer::onTransact(
             bool useIdentityTransform = static_cast<bool>(data.readInt32());
             int32_t rotation = data.readInt32();
             bool isCpuConsumer = data.readInt32();
+
             status_t res = captureScreen(display, producer,
                     sourceCrop, reqWidth, reqHeight, minLayerZ, maxLayerZ,
                     useIdentityTransform,

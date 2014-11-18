@@ -3333,6 +3333,7 @@ status_t SurfaceFlinger::captureScreen(const sp<IBinder>& display,
         status_t result;
         bool useReadPixels;
         bool isLocalScreenshot;
+        bool useReadPixels;
     public:
         MessageCaptureScreen(SurfaceFlinger* flinger,
                 const sp<IBinder>& display,
@@ -3347,8 +3348,8 @@ status_t SurfaceFlinger::captureScreen(const sp<IBinder>& display,
               minLayerZ(minLayerZ), maxLayerZ(maxLayerZ),
               useIdentityTransform(useIdentityTransform),
               rotation(rotation), result(PERMISSION_DENIED),
-              useReadPixels(useReadPixels),
-              isLocalScreenshot(isLocalScreenshot)
+              isLocalScreenshot(isLocalScreenshot),
+              useReadPixels(useReadPixels)
         {
         }
         status_t getResult() const {
@@ -3360,7 +3361,8 @@ status_t SurfaceFlinger::captureScreen(const sp<IBinder>& display,
             bool useReadPixels = this->useReadPixels && !flinger->mGpuToCpuSupported;
             result = flinger->captureScreenImplLocked(hw, producer,
                     sourceCrop, reqWidth, reqHeight, minLayerZ, maxLayerZ,
-                    useIdentityTransform, rotation, isLocalScreenshot, useReadPixels);
+                    useIdentityTransform, rotation, isLocalScreenshot,
+                    useReadPixels);
             static_cast<GraphicProducerWrapper*>(IInterface::asBinder(producer).get())->exit(result);
             return true;
         }
@@ -3594,11 +3596,11 @@ status_t SurfaceFlinger::captureScreenImplLocked(
                             sp<GraphicBuffer> buf = static_cast<GraphicBuffer*>(buffer);
                             void* vaddr;
                             if (buf->lock(GRALLOC_USAGE_SW_WRITE_OFTEN, &vaddr) == NO_ERROR) {
-                                getRenderEngine().readPixels(0, 0, buffer->stride, reqHeight, (uint32_t *)vaddr);
+                                getRenderEngine().readPixels(0, 0, buffer->stride, reqHeight,
+                                        (uint32_t *)vaddr);
                                 buf->unlock();
                             }
                         }
-
                         if (DEBUG_SCREENSHOTS) {
                             uint32_t* pixels = new uint32_t[reqWidth*reqHeight];
                             getRenderEngine().readPixels(0, 0, reqWidth, reqHeight, pixels);

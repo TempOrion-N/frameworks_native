@@ -153,7 +153,7 @@ public:
             uint32_t minLayerZ, uint32_t maxLayerZ,
             bool useIdentityTransform,
             Rotation rotation = eRotateNone,
-            bool isCpuConsumer = SS_CPU_CONSUMER) = 0;
+            bool isCpuConsumer = false) = 0;
 
     /* Clears the frame statistics for animations.
      *

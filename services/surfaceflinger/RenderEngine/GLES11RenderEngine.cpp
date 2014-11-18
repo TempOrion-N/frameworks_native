@@ -311,8 +311,10 @@ void GLES11RenderEngine::bindImageAsFramebuffer(EGLImageKHR image,
         // create a FBO to render into
         glGenFramebuffersOES(1, &name);
         glBindFramebufferOES(GL_FRAMEBUFFER_OES, name);
-        glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_RENDERBUFFER_OES, tname);
+        glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES,
+                GL_RENDERBUFFER_OES, tname);
     }
+
     *status = glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES);
     *texName = tname;
     *fbName = name;
