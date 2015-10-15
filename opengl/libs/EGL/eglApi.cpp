@@ -472,7 +472,7 @@ EGLSurface eglCreateWindowSurface(  EGLDisplay dpy, EGLConfig config,
         EGLint format;
         android_dataspace dataSpace = HAL_DATASPACE_UNKNOWN;
 
-#ifdef WORKAROUND_BUG_10194508
+#if WORKAROUND_BUG_10194508
         if (!cnx->egl.eglGetConfigAttrib(iDpy, config, EGL_NATIVE_VISUAL_ID,
                 &format)) {
             ALOGE("eglGetConfigAttrib(EGL_NATIVE_VISUAL_ID) failed: %#x",
